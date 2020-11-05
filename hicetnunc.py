@@ -29,7 +29,6 @@ class hicetnuncDAO(sp.Contract):
             oracle_staking_rights = True
             )    
 
-
     @sp.entry_point
     def contribute(self, params):
         sp.verify(sp.amount > sp.tez(1))
