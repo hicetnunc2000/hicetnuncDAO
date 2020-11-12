@@ -19,7 +19,7 @@ code
         IF_SOME
           {}
           {
-            PUSH int 120;
+            PUSH int 114;
             FAILWITH;
           };
         COMPARE;
@@ -39,7 +39,7 @@ code
         IF_SOME
           {}
           {
-            PUSH int 123;
+            PUSH int 117;
             FAILWITH;
           };
         PUSH mutez 0;
@@ -81,33 +81,30 @@ code
             DUP;
             DUG 2;
             CDDR;
-            DUP;
             NOW;
-            PUSH int 3283200;
+            PUSH int 3456000;
             ADD;
             PAIR;
             SELF;
             ADDRESS;
-            PAIR;
-            PUSH bool True;
-            DIG 4;
+            DIG 3;
             DUP;
-            DUG 5;
+            DUG 4;
             CDAR;
             PAIR;
             PAIR;
-            DIG 2;
+            SWAP;
             DUP;
-            DUG 3;
+            DUG 2;
             CDDR;
             PUSH mutez 1000000;
-            DIG 4;
+            DIG 3;
             DUP;
-            DUG 5;
+            DUG 4;
             CDAR;
             MUL;
             PAIR;
-            DIG 3;
+            DIG 2;
             CAR;
             PUSH mutez 0;
             PAIR;
@@ -117,7 +114,7 @@ code
             NONE key_hash;
             CREATE_CONTRACT
              { parameter (or (or (unit %contribute) (key_hash %set_baker)) (or (string %update_meta) (or (address %update_oracle) (pair %withdraw (address %address) (mutez %amount)))));
-               storage   (pair (pair (pair (mutez %achieved) (address %admin)) (pair (mutez %goal) (string %meta))) (pair (pair (address %oracle) (bool %oracle_staking_rights)) (pair (address %protocol) (pair (timestamp %time_lock) (nat %token_id)))));
+               storage   (pair (pair (pair (mutez %achieved) (address %admin)) (pair (mutez %goal) (string %meta))) (pair (pair (address %oracle) (address %protocol)) (pair (timestamp %time_lock) (nat %token_id))));
                code
                  {
                    DUP;
@@ -173,7 +170,7 @@ code
                            IF_SOME
                              {}
                              {
-                               PUSH int 40;
+                               PUSH int 36;
                                FAILWITH;
                              };
                            CAR;
@@ -181,19 +178,19 @@ code
                            DIG 2;
                            DUP;
                            DUG 3;
-                           CDDAR;
+                           CDADR;
                            CONTRACT %mint_hicetnuncDAO (pair (address %address) (pair (nat %amount) (nat %token_id)));
                            IF_SOME
                              {}
                              {
-                               PUSH int 41;
+                               PUSH int 37;
                                FAILWITH;
                              };
                            PUSH mutez 0;
                            DIG 4;
                            DUP;
                            DUG 5;
-                           CDDDDR;
+                           CDDDR;
                            DIG 4;
                            PAIR;
                            SENDER;
@@ -212,19 +209,6 @@ code
                            IF
                              {
                                PUSH bool True;
-                               DIG 2;
-                               DUP;
-                               DUG 3;
-                               CDADR;
-                               COMPARE;
-                               EQ;
-                             }
-                             {
-                               PUSH bool False;
-                             };
-                           IF
-                             {
-                               PUSH bool True;
                              }
                              {
                                SWAP;
@@ -238,47 +222,14 @@ code
                            IF
                              {}
                              {
-                               PUSH string "WrongCondition: ((sp.sender == self.data.oracle) & (self.data.oracle_staking_rights == True)) | (sp.sender == self.data.admin)";
+                               PUSH string "WrongCondition: (sp.sender == self.data.oracle) | (sp.sender == self.data.admin)";
                                FAILWITH;
                              };
-                           DUP;
                            SOME;
                            SET_DELEGATE;
                            NIL operation;
                            SWAP;
                            CONS;
-                           DIG 2;
-                           DUP;
-                           DUG 3;
-                           CAADR;
-                           SENDER;
-                           COMPARE;
-                           EQ;
-                           IF
-                             {
-                               SWAP;
-                               DROP;
-                               SWAP;
-                               DUP;
-                               CAR;
-                               SWAP;
-                               CDR;
-                               DUP;
-                               CDR;
-                               SWAP;
-                               CAAR;
-                               PUSH bool False;
-                               SWAP;
-                               PAIR;
-                               PAIR;
-                               SWAP;
-                               PAIR;
-                               SWAP;
-                             }
-                             {
-                               SWAP;
-                               DROP;
-                             };
                          };
                      }
                      {
@@ -338,22 +289,9 @@ code
                                    EQ;
                                  };
                                IF
-                                 {
-                                   PUSH bool False;
-                                   DIG 2;
-                                   DUP;
-                                   DUG 3;
-                                   CDADR;
-                                   COMPARE;
-                                   EQ;
-                                 }
-                                 {
-                                   PUSH bool False;
-                                 };
-                               IF
                                  {}
                                  {
-                                   PUSH string "WrongCondition: ((sp.sender == self.data.oracle) | (sp.sender == self.data.admin)) & (self.data.oracle_staking_rights == False)";
+                                   PUSH string "WrongCondition: (sp.sender == self.data.oracle) | (sp.sender == self.data.admin)";
                                    FAILWITH;
                                  };
                                SWAP;
@@ -389,7 +327,7 @@ code
                                SWAP;
                                DUP;
                                DUG 2;
-                               CDDDAR;
+                               CDDAR;
                                NOW;
                                COMPARE;
                                GT;
@@ -407,7 +345,7 @@ code
                                IF_SOME
                                  {}
                                  {
-                                   PUSH int 77;
+                                   PUSH int 71;
                                    FAILWITH;
                                  };
                                DIG 2;
@@ -426,7 +364,9 @@ code
             NIL operation;
             SWAP;
             CONS;
-            DIG 3;
+            DIG 2;
+            DUP;
+            DUG 3;
             DUP;
             CDR;
             SWAP;
@@ -441,10 +381,11 @@ code
             IF_SOME
               {}
               {
-                PUSH int 98;
+                PUSH int 93;
                 FAILWITH;
               };
             DIG 5;
+            CDDR;
             SOME;
             SWAP;
             UPDATE;

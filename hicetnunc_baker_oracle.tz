@@ -29,7 +29,7 @@ code
         IF_SOME
           {}
           {
-            PUSH int 170;
+            PUSH int 164;
             FAILWITH;
           };
         PUSH mutez 0;
@@ -83,7 +83,7 @@ code
             IF_SOME
               {}
               {
-                PUSH int 164;
+                PUSH int 158;
                 FAILWITH;
               };
             PUSH mutez 0;
