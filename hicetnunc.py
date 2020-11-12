@@ -56,15 +56,19 @@ class hicetnuncDAO(sp.Contract):
     def update_meta(self, params):
         sp.verify(sp.sender == self.data.admin)
         self.data.meta = params
-        
+
+    @sp.entry_point
+    def update_admin(self, params):
+        sp.verify(sp.sender == self.data.admin)
+        self.data.admin = params
+
     #oracle/admin staking
     @sp.entry_point
     def set_baker(self, params):
         sp.verify((sp.sender == self.data.oracle) | (sp.sender == self.data.admin))
 
         sp.set_delegate(sp.some(params))
-        
-        
+    
     @sp.entry_point
     def withdraw(self, params):
         sp.verify(sp.sender == self.data.admin) # comment for testing

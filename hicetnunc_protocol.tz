@@ -19,7 +19,7 @@ code
         IF_SOME
           {}
           {
-            PUSH int 114;
+            PUSH int 119;
             FAILWITH;
           };
         COMPARE;
@@ -39,7 +39,7 @@ code
         IF_SOME
           {}
           {
-            PUSH int 117;
+            PUSH int 122;
             FAILWITH;
           };
         PUSH mutez 0;
@@ -113,7 +113,7 @@ code
             PUSH mutez 0;
             NONE key_hash;
             CREATE_CONTRACT
-             { parameter (or (or (unit %contribute) (key_hash %set_baker)) (or (string %update_meta) (or (address %update_oracle) (pair %withdraw (address %address) (mutez %amount)))));
+             { parameter (or (or (unit %contribute) (or (key_hash %set_baker) (address %update_admin))) (or (string %update_meta) (or (address %update_oracle) (pair %withdraw (address %address) (mutez %amount)))));
                storage   (pair (pair (pair (mutez %achieved) (address %admin)) (pair (mutez %goal) (string %meta))) (pair (pair (address %oracle) (address %protocol)) (pair (timestamp %time_lock) (nat %token_id))));
                code
                  {
@@ -199,16 +199,39 @@ code
                            CONS;
                          }
                          {
-                           SWAP;
-                           DUP;
-                           DUG 2;
-                           CDAAR;
-                           SENDER;
-                           COMPARE;
-                           EQ;
-                           IF
+                           IF_LEFT
                              {
-                               PUSH bool True;
+                               SWAP;
+                               DUP;
+                               DUG 2;
+                               CDAAR;
+                               SENDER;
+                               COMPARE;
+                               EQ;
+                               IF
+                                 {
+                                   PUSH bool True;
+                                 }
+                                 {
+                                   SWAP;
+                                   DUP;
+                                   DUG 2;
+                                   CAADR;
+                                   SENDER;
+                                   COMPARE;
+                                   EQ;
+                                 };
+                               IF
+                                 {}
+                                 {
+                                   PUSH string "WrongCondition: (sp.sender == self.data.oracle) | (sp.sender == self.data.admin)";
+                                   FAILWITH;
+                                 };
+                               SOME;
+                               SET_DELEGATE;
+                               NIL operation;
+                               SWAP;
+                               CONS;
                              }
                              {
                                SWAP;
@@ -218,18 +241,28 @@ code
                                SENDER;
                                COMPARE;
                                EQ;
+                               IF
+                                 {}
+                                 {
+                                   PUSH string "WrongCondition: sp.sender == self.data.admin";
+                                   FAILWITH;
+                                 };
+                               SWAP;
+                               DUP;
+                               CDR;
+                               SWAP;
+                               CAR;
+                               DUP;
+                               CDR;
+                               SWAP;
+                               CAAR;
+                               DIG 3;
+                               SWAP;
+                               PAIR;
+                               PAIR;
+                               PAIR;
+                               NIL operation;
                              };
-                           IF
-                             {}
-                             {
-                               PUSH string "WrongCondition: (sp.sender == self.data.oracle) | (sp.sender == self.data.admin)";
-                               FAILWITH;
-                             };
-                           SOME;
-                           SET_DELEGATE;
-                           NIL operation;
-                           SWAP;
-                           CONS;
                          };
                      }
                      {
@@ -345,7 +378,7 @@ code
                                IF_SOME
                                  {}
                                  {
-                                   PUSH int 71;
+                                   PUSH int 76;
                                    FAILWITH;
                                  };
                                DIG 2;
@@ -381,7 +414,7 @@ code
             IF_SOME
               {}
               {
-                PUSH int 93;
+                PUSH int 98;
                 FAILWITH;
               };
             DIG 5;
