@@ -33,7 +33,6 @@ class hDAO(sp.Contract):
         
         sp.if (self.data.swaps[params.swap_id].objkt_amount == 0):
             del self.data.swaps[params.swap_id]
-            
         
     @sp.entry_point
     def cancel_swap(self, params):
