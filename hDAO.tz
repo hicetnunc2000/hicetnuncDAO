@@ -1,0 +1,786 @@
+parameter (or (or (or (nat %cancel_swap) (pair %collect (nat %objkt_amount) (nat %swap_id))) (or (unit %default) (unit %join_hDAO))) (or (or (nat %leave_hDAO) (unit %management_rewards)) (or (pair %mint_OBJKT (address %address) (pair (nat %amount) (map %metadata string bytes))) (or (key_hash %set_baker) (pair %swap (nat %objkt_amount) (pair (nat %objkt_id) (nat %ung_per_objkt)))))));
+storage   (pair (pair (pair (mutez %balance) (address %manager)) (pair (big_map %metadata string bytes) (address %objkt))) (pair (pair (nat %objkt_id) (nat %swap_id)) (pair (big_map %swaps nat (pair (pair (address %issuer) (nat %objkt_amount)) (pair (nat %objkt_id) (nat %ung_per_objkt)))) (address %ung))));
+code
+  {
+    DUP;
+    CDR;
+    SWAP;
+    CAR;
+    IF_LEFT
+      {
+        IF_LEFT
+          {
+            IF_LEFT
+              {
+                SWAP;
+                DUP;
+                DUG 2;
+                CDR;
+                CDR;
+                CAR;
+                SWAP;
+                DUP;
+                DUG 2;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 50;
+                    FAILWITH;
+                  };
+                CAR;
+                CAR;
+                SENDER;
+                COMPARE;
+                EQ;
+                IF
+                  {}
+                  {
+                    PUSH string "WrongCondition: sp.sender == self.data.swaps[params].issuer";
+                    FAILWITH;
+                  };
+                NIL operation;
+                DIG 2;
+                DUP;
+                DUG 3;
+                CAR;
+                CDR;
+                CDR;
+                CONTRACT %transfer (list (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount))))));
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 124;
+                    FAILWITH;
+                  };
+                PUSH mutez 0;
+                NIL (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount)))));
+                NIL (pair (address %to_) (pair (nat %token_id) (nat %amount)));
+                DIG 6;
+                DUP;
+                DUG 7;
+                CDR;
+                CDR;
+                CAR;
+                DIG 6;
+                DUP;
+                DUG 7;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 51;
+                    FAILWITH;
+                  };
+                CAR;
+                CDR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                CDR;
+                CDR;
+                CAR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 51;
+                    FAILWITH;
+                  };
+                CDR;
+                CAR;
+                PAIR;
+                SENDER;
+                PAIR;
+                CONS;
+                SELF;
+                ADDRESS;
+                PAIR;
+                CONS;
+                TRANSFER_TOKENS;
+                CONS;
+                DIG 2;
+                DUP;
+                CAR;
+                SWAP;
+                CDR;
+                DUP;
+                CAR;
+                SWAP;
+                CDR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                NONE (pair (pair (address %issuer) (nat %objkt_amount)) (pair (nat %objkt_id) (nat %ung_per_objkt)));
+                DIG 6;
+                UPDATE;
+                PAIR;
+                SWAP;
+                PAIR;
+                SWAP;
+                PAIR;
+                SWAP;
+              }
+              {
+                DUP;
+                CAR;
+                PUSH nat 0;
+                COMPARE;
+                LT;
+                IF
+                  {}
+                  {
+                    PUSH string "WrongCondition: params.objkt_amount > 0";
+                    FAILWITH;
+                  };
+                NIL operation;
+                DIG 2;
+                DUP;
+                DUG 3;
+                CDR;
+                CDR;
+                CDR;
+                CONTRACT %transfer (list (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount))))));
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 124;
+                    FAILWITH;
+                  };
+                PUSH mutez 0;
+                NIL (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount)))));
+                NIL (pair (address %to_) (pair (nat %token_id) (nat %amount)));
+                DIG 5;
+                DUP;
+                DUG 6;
+                CAR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                CDR;
+                CDR;
+                CAR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                CDR;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 40;
+                    FAILWITH;
+                  };
+                CDR;
+                CDR;
+                MUL;
+                PUSH nat 1;
+                PAIR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                CDR;
+                CDR;
+                CAR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                CDR;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 40;
+                    FAILWITH;
+                  };
+                CAR;
+                CAR;
+                PAIR;
+                CONS;
+                SENDER;
+                PAIR;
+                CONS;
+                TRANSFER_TOKENS;
+                CONS;
+                DIG 2;
+                DUP;
+                DUG 3;
+                CAR;
+                CDR;
+                CDR;
+                CONTRACT %transfer (list (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount))))));
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 124;
+                    FAILWITH;
+                  };
+                PUSH mutez 0;
+                NIL (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount)))));
+                NIL (pair (address %to_) (pair (nat %token_id) (nat %amount)));
+                DIG 5;
+                DUP;
+                DUG 6;
+                CAR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                CDR;
+                CDR;
+                CAR;
+                DIG 7;
+                DUP;
+                DUG 8;
+                CDR;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 41;
+                    FAILWITH;
+                  };
+                CDR;
+                CAR;
+                PAIR;
+                SENDER;
+                PAIR;
+                CONS;
+                SELF;
+                ADDRESS;
+                PAIR;
+                CONS;
+                TRANSFER_TOKENS;
+                CONS;
+                DIG 2;
+                DUP;
+                DUG 3;
+                DUP;
+                CAR;
+                SWAP;
+                CDR;
+                DUP;
+                CAR;
+                SWAP;
+                CDR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                DUP;
+                DIG 6;
+                DUP;
+                DUG 7;
+                CDR;
+                DUP;
+                DUG 2;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 42;
+                    FAILWITH;
+                  };
+                DUP;
+                CAR;
+                SWAP;
+                CDR;
+                CDR;
+                DIG 8;
+                DUP;
+                DUG 9;
+                CAR;
+                DIG 10;
+                CDR;
+                CDR;
+                CAR;
+                DIG 10;
+                DUP;
+                DUG 11;
+                CDR;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 42;
+                    FAILWITH;
+                  };
+                CDR;
+                CAR;
+                SUB;
+                ABS;
+                PAIR;
+                SWAP;
+                PAIR;
+                SOME;
+                SWAP;
+                UPDATE;
+                PAIR;
+                SWAP;
+                PAIR;
+                SWAP;
+                PAIR;
+                DUG 2;
+                PUSH nat 0;
+                DIG 3;
+                DUP;
+                DUG 4;
+                CDR;
+                CDR;
+                CAR;
+                DIG 3;
+                DUP;
+                DUG 4;
+                CDR;
+                GET;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 44;
+                    FAILWITH;
+                  };
+                CAR;
+                CDR;
+                COMPARE;
+                EQ;
+                IF
+                  {
+                    DIG 2;
+                    DUP;
+                    CAR;
+                    SWAP;
+                    CDR;
+                    DUP;
+                    CAR;
+                    SWAP;
+                    CDR;
+                    DUP;
+                    CDR;
+                    SWAP;
+                    CAR;
+                    NONE (pair (pair (address %issuer) (nat %objkt_amount)) (pair (nat %objkt_id) (nat %ung_per_objkt)));
+                    DIG 6;
+                    CDR;
+                    UPDATE;
+                    PAIR;
+                    SWAP;
+                    PAIR;
+                    SWAP;
+                    PAIR;
+                    SWAP;
+                  }
+                  {
+                    SWAP;
+                    DROP;
+                  };
+              };
+          }
+          {
+            IF_LEFT
+              {
+                DROP;
+                NIL operation;
+              }
+              {
+                DROP;
+                PUSH mutez 0;
+                AMOUNT;
+                COMPARE;
+                GT;
+                IF
+                  {
+                    PUSH mutez 730000000000;
+                    BALANCE;
+                    COMPARE;
+                    LT;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {}
+                  {
+                    PUSH string "WrongCondition: (sp.amount > sp.tez(0)) & (sp.balance < sp.tez(730000))";
+                    FAILWITH;
+                  };
+                DUP;
+                CDR;
+                CDR;
+                CDR;
+                CONTRACT %mint (pair (pair (address %address) (nat %amount)) (pair (nat %token_id) (map %token_info string bytes)));
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 94;
+                    FAILWITH;
+                  };
+                NIL operation;
+                SWAP;
+                PUSH mutez 0;
+                EMPTY_MAP string bytes;
+                PUSH string "ipfs://QmS87PA42aKj6WgPM1vQMHxyavKJkswa5ycgAn1wbSrNgi";
+                PACK;
+                SOME;
+                PUSH string "";
+                UPDATE;
+                PUSH nat 1;
+                PAIR;
+                PUSH mutez 1;
+                AMOUNT;
+                EDIV;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 104;
+                    FAILWITH;
+                  };
+                CAR;
+                SENDER;
+                PAIR;
+                PAIR;
+                TRANSFER_TOKENS;
+                CONS;
+                SWAP;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                AMOUNT;
+                ADD;
+                PAIR;
+                PAIR;
+                PAIR;
+                SWAP;
+              };
+          };
+      }
+      {
+        IF_LEFT
+          {
+            IF_LEFT
+              {
+                NIL operation;
+                DIG 2;
+                DUP;
+                DUG 3;
+                CDR;
+                CDR;
+                CDR;
+                CONTRACT %transfer (list (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount))))));
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 124;
+                    FAILWITH;
+                  };
+                PUSH mutez 0;
+                NIL (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount)))));
+                NIL (pair (address %to_) (pair (nat %token_id) (nat %amount)));
+                DIG 5;
+                DUP;
+                DUG 6;
+                PUSH nat 1;
+                PAIR;
+                SELF;
+                ADDRESS;
+                PAIR;
+                CONS;
+                SENDER;
+                PAIR;
+                CONS;
+                TRANSFER_TOKENS;
+                CONS;
+                SENDER;
+                CONTRACT unit;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 120;
+                    FAILWITH;
+                  };
+                PUSH mutez 1;
+                DIG 3;
+                DUP;
+                DUG 4;
+                MUL;
+                UNIT;
+                TRANSFER_TOKENS;
+                CONS;
+                DIG 2;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                PUSH mutez 1;
+                DIG 6;
+                MUL;
+                SWAP;
+                SUB;
+                PAIR;
+                PAIR;
+                PAIR;
+                SWAP;
+              }
+              {
+                DROP;
+                DUP;
+                CAR;
+                CAR;
+                CDR;
+                SENDER;
+                COMPARE;
+                EQ;
+                IF
+                  {}
+                  {
+                    PUSH string "WrongCondition: sp.sender == self.data.manager";
+                    FAILWITH;
+                  };
+                NIL operation;
+                SENDER;
+                CONTRACT unit;
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 62;
+                    FAILWITH;
+                  };
+                DIG 2;
+                DUP;
+                DUG 3;
+                CAR;
+                CAR;
+                CAR;
+                BALANCE;
+                SUB;
+                UNIT;
+                TRANSFER_TOKENS;
+                CONS;
+              };
+          }
+          {
+            IF_LEFT
+              {
+                DUP;
+                CDR;
+                CAR;
+                PUSH nat 0;
+                COMPARE;
+                LT;
+                IF
+                  {}
+                  {
+                    PUSH string "WrongCondition: params.amount > 0";
+                    FAILWITH;
+                  };
+                NIL operation;
+                DIG 2;
+                DUP;
+                DUG 3;
+                CAR;
+                CDR;
+                CDR;
+                CONTRACT %mint (pair (pair (address %address) (nat %amount)) (pair (nat %token_id) (map %token_info string bytes)));
+                IF_SOME
+                  {}
+                  {
+                    PUSH int 68;
+                    FAILWITH;
+                  };
+                PUSH mutez 0;
+                DIG 3;
+                DUP;
+                DUG 4;
+                CDR;
+                CDR;
+                DIG 5;
+                DUP;
+                DUG 6;
+                CDR;
+                CAR;
+                CAR;
+                PAIR;
+                DIG 4;
+                DUP;
+                CDR;
+                CAR;
+                SWAP;
+                CAR;
+                PAIR;
+                PAIR;
+                TRANSFER_TOKENS;
+                CONS;
+                SWAP;
+                DUP;
+                CAR;
+                SWAP;
+                CDR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                DUP;
+                CDR;
+                SWAP;
+                CAR;
+                PUSH nat 1;
+                ADD;
+                PAIR;
+                PAIR;
+                SWAP;
+                PAIR;
+                SWAP;
+              }
+              {
+                IF_LEFT
+                  {
+                    SWAP;
+                    DUP;
+                    DUG 2;
+                    CAR;
+                    CAR;
+                    CDR;
+                    SENDER;
+                    COMPARE;
+                    EQ;
+                    IF
+                      {}
+                      {
+                        PUSH string "WrongCondition: sp.sender == self.data.manager";
+                        FAILWITH;
+                      };
+                    SOME;
+                    SET_DELEGATE;
+                    NIL operation;
+                    SWAP;
+                    CONS;
+                  }
+                  {
+                    DUP;
+                    CAR;
+                    PUSH nat 0;
+                    COMPARE;
+                    LT;
+                    IF
+                      {}
+                      {
+                        PUSH string "WrongCondition: params.objkt_amount > 0";
+                        FAILWITH;
+                      };
+                    NIL operation;
+                    DIG 2;
+                    DUP;
+                    DUG 3;
+                    CAR;
+                    CDR;
+                    CDR;
+                    CONTRACT %transfer (list (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount))))));
+                    IF_SOME
+                      {}
+                      {
+                        PUSH int 124;
+                        FAILWITH;
+                      };
+                    PUSH mutez 0;
+                    NIL (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount)))));
+                    NIL (pair (address %to_) (pair (nat %token_id) (nat %amount)));
+                    DIG 5;
+                    DUP;
+                    CAR;
+                    SWAP;
+                    DUP;
+                    DUG 7;
+                    CDR;
+                    CAR;
+                    PAIR;
+                    SELF;
+                    ADDRESS;
+                    PAIR;
+                    CONS;
+                    SENDER;
+                    PAIR;
+                    CONS;
+                    TRANSFER_TOKENS;
+                    CONS;
+                    DIG 2;
+                    DUP;
+                    DUG 3;
+                    DUP;
+                    CAR;
+                    SWAP;
+                    CDR;
+                    DUP;
+                    CAR;
+                    SWAP;
+                    CDR;
+                    DUP;
+                    CDR;
+                    SWAP;
+                    CAR;
+                    DIG 6;
+                    CDR;
+                    CAR;
+                    CDR;
+                    DIG 6;
+                    DUP;
+                    CDR;
+                    CDR;
+                    SWAP;
+                    DUP;
+                    DUG 8;
+                    CDR;
+                    CAR;
+                    PAIR;
+                    DIG 7;
+                    CAR;
+                    SENDER;
+                    PAIR;
+                    PAIR;
+                    SOME;
+                    SWAP;
+                    UPDATE;
+                    PAIR;
+                    SWAP;
+                    DUP;
+                    CAR;
+                    SWAP;
+                    CDR;
+                    PUSH nat 1;
+                    ADD;
+                    SWAP;
+                    PAIR;
+                    PAIR;
+                    SWAP;
+                    PAIR;
+                    SWAP;
+                  };
+              };
+          };
+      };
+    NIL operation;
+    SWAP;
+    ITER
+      {
+        CONS;
+      };
+    PAIR;
+  };
